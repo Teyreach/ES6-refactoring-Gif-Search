@@ -10,18 +10,24 @@ App = React.createClass({
         };
     },
 
-    handleSearch: function(searchingText) {
-        this.setState({
-            loading: true
-        });
-        this.getGif(searchingText, function(gif) {
-            this.setState({
-                loading: false,
-                gif: gif,
-                searchingText: searchingText
-            });
-        }.bind(this));
-    },
+   handleSearch: function(searchingText) {
+		this.setState({
+			loading: true
+		});
+		var self = this;
+		
+		this.getGif(searchingText)
+		.then(function(gif) {
+			self.setState({
+				loading:false,
+				gif: gif,
+				searchingText: searchingText
+			})
+		})
+		.catch(function(error) {
+			console.error(error);
+		})
+	},
 
    getGif: function(searchingText) {
 		return new Promise(
